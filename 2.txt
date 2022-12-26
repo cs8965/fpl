@@ -1,0 +1,311 @@
+//set
+//----------------
+#include <iostream>
+using namespace std;
+template <typename t>
+
+class setfunc
+{
+public:
+  t set[10];
+
+  setfunc()
+  {
+    for (int i = 0; i < 10; i++)
+    {
+      set[i] = 0;
+    }
+  }
+
+  // t set2[10];
+  // void create();
+  void display();
+  void insert();
+  void del(t);
+  int search(t);
+  int size();
+  void intersection(setfunc, setfunc);
+  void Union(setfunc, setfunc);
+  void differ(setfunc, setfunc);
+  void subset(setfunc, setfunc);
+};
+
+template <typename t>
+void setfunc<t>::insert()
+{
+  int i = 0, n1 = 0;
+  char c;
+  int size = 10;
+  t n;
+  do
+  {
+    if (n1 != size)
+    {
+      cout << "\neneter no :";
+      cin >> n;
+      set[i] = n;
+      i++;
+      n1++;
+    }
+    else
+    {
+      cout << "\nset if full";
+      break;
+    }
+    cout << "\ndo you want to add more ele ";
+    cin >> c;
+  } while (c == 'y');
+  cout << "\nlist is : ";
+  display();
+}
+
+template <typename t>
+int setfunc<t>::size()
+{
+  int i = 0, j = 0;
+  while (set[i] != 0)
+  {
+    i++;
+    j++;
+  }
+  return j;
+}
+
+template <typename t>
+int setfunc<t>::search(t ele)
+{
+  int a = size();
+  int i = 0;
+  for (i = 0; i < a; i++)
+  {
+    if (set[i] == ele)
+    {
+      return i;
+    }
+  }
+  return -1;
+}
+
+template <typename t>
+void setfunc<t>::del(t ele)
+{
+  t n;
+  int i;
+  int max = size();
+  if (search(ele) != -1)
+  {
+    n = search(ele);
+    for (i = n + 1; i < max; i++)
+    {
+      set[i - 1] = set[i];
+    }
+  }
+  set[i - 1] = 0;
+  cout << "\nupdated list is : ";
+  display();
+}
+
+template <typename t>
+void setfunc<t>::intersection(setfunc<t> s1, setfunc<t> s2)
+{
+  cout << "\nlist 1 is : ";
+  s1.display();
+  cout << "\nlist 2 is : ";
+  s2.display();
+  cout << "\nintersection is : ";
+  for (int i = 0; i < s1.size(); i++)
+  {
+    for (int j = 0; j <= s2.size(); j++)
+    {
+      if (s1.set[i] == s2.set[j])
+      {
+        cout << s1.set[i] << " ";
+        break;
+      }
+    }
+  }
+}
+
+template <typename t>
+void setfunc<t>::Union(setfunc<t> s1, setfunc<t> s2)
+{
+  int flag = 0;
+  int i = 0;
+  cout << "\nlist 1 is : ";
+  s1.display();
+  cout << "\nlist 2 is : ";
+  s2.display();
+  cout << "\nunion is : ";
+  for (i = 0; i < s1.size(); i++)
+  {
+    cout << s1.set[i] << " ";
+  }
+  for (int j = 0; j < s2.size(); j++)
+  {
+    flag = 0;
+    for (i = 0; i < s1.size(); i++)
+    {
+      if (s1.set[i] == s2.set[j])
+      {
+        flag = 1;
+        break;
+      }
+    }
+    if (flag == 0)
+    {
+      cout << s2.set[j] << " ";
+    }
+  }
+}
+
+template <typename t>
+void setfunc<t>::differ(setfunc<t> s1, setfunc<t> s2)
+{
+  int flag = 1;
+  cout << "\nlist 1 is : ";
+  s1.display();
+  cout << "\nlist 2 is : ";
+  s2.display();
+  cout << "\ndifference is : ";
+  for (int i = 0; i < s1.size(); i++)
+  {
+    for (int j = 0; j <= s2.size(); j++)
+    {
+      if (s1.set[i] == s2.set[j])
+      {
+        flag = 0;
+        break;
+      }
+      else
+        flag = 1;
+    }
+    if (flag == 1)
+    {
+      cout << s1.set[i] << " ";
+    }
+  }
+}
+
+template <class t>
+void setfunc<t>::subset(setfunc<t> s1, setfunc<t> s2)
+{
+  int count = 0;
+  int size = s2.size();
+  cout << "\nlist 1 is : ";
+  s1.display();
+  cout << "\nlist 2 is : ";
+  s2.display();
+  for (int i = 0; i < s1.size(); i++)
+  {
+    for (int j = 0; j < s2.size(); j++)
+    {
+      if (s1.set[i] == s2.set[j])
+      {
+        count++;
+        break;
+      }
+    }
+  }
+  if (count == size)
+  {
+    cout << "\nsubset property satisfy";
+  }
+  else
+  {
+    cout << "\nsubset property not satisfy";
+  }
+}
+
+template <typename t>
+void setfunc<t>::display()
+{
+  for (int i = 0; set[i] != 0; i++)
+  {
+    cout << set[i] << " ";
+  }
+}
+
+int main()
+{
+  setfunc<int> s1, s2;
+  int op;
+  char ch, c;
+  do
+  {
+    cout << "\nChoose one of the option below : "
+         << "\n1. create first set"
+         << "\n2. create second set"
+         << "\n3. Delete"
+         << "\n4. intersection"
+         << "\n5. union"
+         << "\n6. difference of two set "
+         << "\n7. subset"
+         << "\n8. display"
+         << "\nEnter option here : ";
+    cin >> op;
+    switch (op)
+    {
+    case 1:
+      s1.insert();
+      break;
+
+    case 2:
+      s2.insert();
+      break;
+
+    case 3:
+      int m, s;
+      char ab;
+      do
+      {
+        cout << "\nfrom which set do you want to delete ele 1 or 2 : ";
+        cin >> s;
+        if (s == 1)
+        {
+          cout << "\nenter which no do you want to delete : ";
+          cin >> m;
+          s1.del(m);
+        }
+        else
+        {
+          cout << "\nenter which no do you want to delete : ";
+          cin >> m;
+          s2.del(m);
+        }
+        cout << "\ndo you want delete more ele y or n : ";
+        cin >> ab;
+      } while (ab == 'y');
+      break;
+
+    case 4:
+      s1.intersection(s1, s2);
+      break;
+
+    case 5:
+      s1.Union(s1, s2);
+      break;
+
+    case 6:
+      s1.differ(s1, s2);
+      break;
+
+    case 7:
+      s1.subset(s1, s2);
+      break;
+
+    case 8:
+      cout << "\nlist 1 is : ";
+      s1.display();
+      cout << "\nlist 2 is : ";
+      s2.display();
+      break;
+
+    default:
+      cout << "\nInvalid option";
+    }
+    cout << "\nDo want do more opration : y or n : ";
+    cin >> ch;
+  } while (ch == 'y');
+
+  return 0;
+}

@@ -1,0 +1,72 @@
+//book
+/-------------------
+#include <iostream>
+using namespace std;
+
+struct node
+{
+    char title[10];
+    int childcount;
+    struct node *child[10];
+};
+
+int main()
+{
+    int chaptercount, sectioncount, subsectioncount;
+    node *root;
+
+    root = new node;
+    cout << "Enter title of Book : ";
+    cin >> root->title;
+    cout << "How many chapters in a book : ";
+    cin >> chaptercount;
+    root->childcount = chaptercount;
+
+    for (int i = 0; i < chaptercount; i++)
+    {
+        root->child[i] = new node;
+        cout << "Enter name of chapter " << i + 1 << " in a book : ";
+        cin >> root->child[i]->title;
+        cout << "Enter number of sections in chapter " << i + 1 << " : ";
+        cin >> root->child[i]->childcount;
+        sectioncount = root->child[i]->childcount;
+
+        for (int j = 0; j < sectioncount; j++)
+        {
+            root->child[i]->child[j] = new node;
+            cout << "\tEnter name of section " << j + 1 << " : ";
+            cin >> root->child[i]->child[j]->title;
+            cout << "\tEnter number of sub-sections in section " << j + 1 << " : ";
+            cin >> root->child[i]->child[j]->childcount;
+            subsectioncount = root->child[i]->child[j]->childcount;
+
+            for (int k = 0; k < subsectioncount; k++)
+            {
+                root->child[i]->child[j]->child[k] = new node;
+                cout << "\t\tEnter name of sub-section " << k + 1 << " : ";
+                cin >> root->child[i]->child[j]->child[k]->title;
+            }
+        }
+    }
+
+
+    cout << "\n----------------------------------------\n\t\t" << root->title << "\n----------------------------------------" << endl;
+
+    for (int i = 0; i < chaptercount; i++)
+    {
+        cout <<i+1<<" : "<< root->child[i]->title << endl;
+        sectioncount = root->child[i]->childcount;
+        for (int j = 0; j < sectioncount; j++)
+        {
+            cout << "\t" <<i+1<<"."<<j+1<<" : "<< root->child[i]->child[j]->title << endl;
+            subsectioncount = root->child[i]->child[j]->childcount;
+            for (int k = 0; k < subsectioncount; k++)
+            {
+                cout << "\t\t" <<i+1<<"."<<j+1<<"."<<k+1<<" : "<< root->child[i]->child[j]->child[k]->title << endl;
+            }
+        }
+    }
+
+    cout << "----------------------------------------";
+    return 0;
+}

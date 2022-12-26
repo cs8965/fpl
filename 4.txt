@@ -1,0 +1,180 @@
+#include <iostream>
+using namespace std;
+
+struct node
+{
+  int data;
+  node *left;
+  node *right;
+};
+
+struct node *nnode;
+class BST
+{
+public:
+  node *root, *temp,*temp1, *temp2;
+  BST()
+  {
+    root = NULL;
+  }
+
+  void create();
+  void display(node *);
+  int longpath(node *);
+  void minvalue();
+  void search(node *);
+  void swap(node *temp);
+};
+
+void BST ::create()
+{
+  int x;
+  nnode = new node;
+  nnode->left = NULL;
+  nnode->right = NULL;
+  cout << "\nEnter data : ";
+  cin >> nnode->data;
+  x = nnode->data;
+  if (root == NULL)
+  {
+    root = nnode;
+    cout << "root is created\n";
+    cout << root->data << " x=" << x;
+  }
+  else
+  {
+    node *temp = root;
+    while ((temp->left != NULL && x < temp->data) || (temp->right != NULL && x > temp->data))
+    {
+      if (x < temp->data)
+      {
+        temp = temp->left;
+      }
+      else
+      {
+        temp = temp->right;
+      }
+    }
+    if (x < temp->data)
+    {
+      temp->left = nnode;
+      cout << "left is created\n";
+      cout << temp->left->data;
+    }
+    else
+    {
+      temp->right = nnode;
+      cout << "right is created\n";
+      cout << temp->right->data;
+    }
+  }
+}
+
+void BST ::display(node *temp)
+{
+  if (temp != NULL)
+  {
+    cout << temp->data << " ";
+    display(temp->left);
+    display(temp->right);
+  }
+}
+
+int BST ::longpath(node *temp)
+{
+  int ld, rd;
+  if (temp == NULL)
+  {
+    return 0;
+  }
+  else
+  {
+    ld = longpath(temp->left);
+    rd = longpath(temp->right);
+
+    if (ld > rd)
+      return (ld + 1);
+    else
+      return (rd + 1);
+  }
+}
+
+void BST ::minvalue()
+{
+  temp = root;
+  while (temp->left != NULL)
+  {
+    temp = temp->left;
+  }
+  cout << "\nmin value is : " << temp->data;
+}
+
+void BST ::search(node *temp)
+{
+  int k;
+  cout << "\nenter k : ";
+  cin >> k;
+  temp = root;
+  int flag = 0;
+  while (temp != NULL)
+  {
+    if (temp->data == k)
+    {
+      cout << "\nk found";
+      flag=1;
+      break;
+    }
+    else if (k < temp->data)
+    {
+      temp = temp->left;
+    }
+    else
+    {
+      temp = temp->right;
+    }
+  }
+    if (flag == 0)
+    {
+      cout << "\nkey not found ";
+    }
+    else
+    {
+      cout << "\nkey found";
+    }
+}
+
+void BST ::swap(node *temp)
+{
+  //temp=root;
+  if(temp!=NULL)
+  {
+  temp2 = temp->right;
+  temp->right = temp->left;
+  temp->left = temp2;
+  swap(temp->left);
+  swap(temp->right);
+  }
+}
+
+int main()
+{
+  BST b1;
+  char ch;
+  int l;
+  do
+  {
+    b1.create();
+    cout << "\ndo you want to add more y or n :";
+    cin >> ch;
+  } while (ch == 'y');
+
+  b1.display(b1.root);
+  b1.minvalue();
+  b1.search(b1.root);
+  l = b1.longpath(b1.root);
+  cout << "\nlong path : " << l;
+  b1.swap(b1.root);
+  cout<<"\nafter swap : ";
+  b1.display(b1.root);
+  return 0;
+}

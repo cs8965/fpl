@@ -1,0 +1,140 @@
+
+
+#include <iostream>
+using namespace std;
+
+class graphpr
+{
+public:
+  int mat[6][6];
+  int visited[6];
+  void creation();
+  void displaygr();
+  int prim();
+  string find(int);
+ 
+};
+string graphpr ::find(int i)
+{
+  int op;
+  op = i;
+  switch (op)
+  {
+  case 0:
+    return "1";
+    break;
+
+  case 1:
+    return "2";
+    break;
+
+
+  case 2:
+    return "3";
+    break;
+
+  case 3:
+    return "4";
+    break;
+
+  case 4:
+    return "5";
+    break;
+  
+  case 5:
+    return "6";
+    break;
+}
+}
+void graphpr ::creation()
+{
+  int d;
+  int i, j;
+  for (i = 0; i < 6; i++)
+  {
+    for (j = i; j < 6; j++)
+    {
+      if (i == j)
+      {
+        mat[i][j] = 999;
+        continue;
+      }
+      string m, n;
+      m = find(i);
+      n = find(j);
+      cout << "\nenter the distance from " << m << " to " << n << " : ";
+      cin >> d;
+      mat[i][j] = d;
+      mat[j][i] = mat[i][j];
+    }
+  }
+}
+void graphpr ::displaygr()
+{
+  cout << "\t1\t"
+       << "2\t"
+       << "3\t"
+       << "4\t"
+       << "5\t" <<"6\t"<< endl;
+  for (int i = 0; i <6; i++)
+  {
+
+    cout << find(i);
+    for (int j = 0; j < 6; j++)
+    {
+      cout << "\t" << mat[i][j];
+    }
+    cout << endl;
+  }
+}
+int graphpr::prim()
+{
+int u,v;
+int count=1;
+int cost=0;
+int start;
+int min;
+int visited[6];
+for(int k=0;k<6;k++)
+{visited[k]=0;
+}
+cout<<"enter starting node"<<endl;
+cin>>start;
+visited[start-1]=1;
+while(count<6)
+{
+   min=999;
+   for(int i=1;i<=6;i++)
+    {
+      if(visited[i-1]==1)
+      {
+        for(int j=1;j<=6;j++)
+          {
+            if(visited[j-1]==0)
+             {
+              if(min>mat[i-1][j-1]);
+                 {
+                  min=mat[i-1][j-1];
+                  v=j-1;
+                  u=i-1;
+                  }
+              }
+            }
+       }
+     }
+cost=cost+min;
+count++;
+visited[v]=1;
+cout<<"edge"<<u+1<<","<<v+1<<endl;
+}
+cout<<"cost of minimum spanning tree is"<<cost;
+
+
+}
+int main()
+{
+graphpr g1;
+g1.creation();
+g1.displaygr();
+g1.prim();
+}
